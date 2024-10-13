@@ -78,6 +78,105 @@
         s.defer = true;
         document.getElementsByTagName('head')[0].appendChild(s);
     }</script></div>
+    <h1>Prochain dimanche à 18h</h1>
+    <div id="countdown">
+        <div class="countdown-item">
+            <span id="days">00</span>
+            <div class="label">Jours</div>
+        </div>
+        <div class="countdown-item">
+            <span id="hours">00</span>
+            <div class="label">Heures</div>
+        </div>
+        <div class="countdown-item">
+            <span id="minutes">00</span>
+            <div class="label">Minutes</div>
+        </div>
+        <div class="countdown-item">
+            <span id="seconds">00</span>
+            <div class="label">Secondes</div>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #282c34;
+            color: #ffffff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+        #countdown {
+            font-size: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .countdown-item span {
+            font-size: 2rem;
+            color: #3498db;
+        }
+        .label {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ecf0f1;
+        }
+    </style>
+
+    <script>
+        function getNextSunday18h() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 = dimanche, 6 = samedi
+            const distanceToSunday = dayOfWeek === 0 && now.getHours() >= 18 ? 7 : 7 - dayOfWeek;
+            const nextSunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + distanceToSunday, 18, 0, 0);
+            return nextSunday;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = getNextSunday18h();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Met à jour le countdown toutes les secondes
+        setInterval(updateCountdown, 1000);
+
+        // Lancer immédiatement la mise à jour du countdown
+        updateCountdown();
+    </script>
 
 </body>
 </html>
