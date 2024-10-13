@@ -147,13 +147,19 @@
     </style>
 
     <script>
-        function getNextSunday18h() {
-            const now = new Date();
-            const dayOfWeek = now.getDay(); // 0 = dimanche, 6 = samedi
-            const distanceToSunday = dayOfWeek === 0 && now.getHours() >= 18 ? 7 : 7 - dayOfWeek;
-            const nextSunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + distanceToSunday, 18, 0, 0);
-            return nextSunday;
-        }
+       function getNextSunday18h() {
+    const now = new Date();
+    const dayOfWeek = now.getDay(); // 0 = dimanche, 6 = samedi
+
+    // Si c'est dimanche après 18h, le prochain événement est dans 7 jours
+    const distanceToSunday = (dayOfWeek === 0 && now.getHours() >= 18) ? 7 : 
+                             (dayOfWeek === 0) ? 0 : 7 - dayOfWeek;
+
+    // Créer la date du prochain dimanche à 18h
+    const nextSunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + distanceToSunday, 18, 0, 0);
+    
+    return nextSunday;
+}
 
         function updateCountdown() {
             const now = new Date();
